@@ -1,0 +1,18 @@
+python3 -m venv env
+source env/bin/activate
+
+pip install fastapi uvicorn passlib[bcrypt] python-multipart mysql-connector-python
+
+uvicorn main:app --reload --port 8001
+
+
+sudo apt update
+sudo apt install mariadb-server
+sudo mariadb -u root
+
+USE mybd;
+
+SELECT * FROM Users;
+
+
+python3 -m http.server 8081python3 -m http.server 8081

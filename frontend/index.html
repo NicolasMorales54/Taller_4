@@ -1,0 +1,99 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Inicion Sesiada</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url("chayanne.jpeg") no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+    .container {
+      background-color: white;
+      padding: 2.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1f4037;
+      margin-bottom: 1rem;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #1f4037;
+    }
+
+    button {
+      background-color: #1f4037;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #146356;
+    }
+
+    .g-recaptcha {
+      margin-top: 1rem;
+      transform: scale(0.92);
+      transform-origin: 0 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Registro</h2>
+    <form id="registerForm">
+      <input type="email" name="email" placeholder="Correo" required />
+      <input type="password" name="password" placeholder="Contraseña" required />
+      <div class="g-recaptcha" data-sitekey="6LenNI8rAAAAAAJV1Nv2jzf-YnUql1kreSNfApex"></div>
+      <button type="submit">Registrar</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const email = form.email.value;
+      const password = form.password.value;
+      const token = grecaptcha.getResponse();
+
+      const response = await fetch('http://localhost:8001/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, token })
+      });
+      const data = await response.json();
+      alert(data.message || JSON.stringify(data));
+    });
+  </script>
+</body>
+</html>
